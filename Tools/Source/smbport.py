@@ -70,6 +70,9 @@ if sys.platform == 'win32':
     _DLL = ct.windll.LoadLibrary("SLABHIDtoSMBus.dll")
 elif sys.platform == 'darwin':
     _DLL = ct.cdll.LoadLibrary("libSLABHIDtoSMBus.dylib")
+elif sys.platform.startswith('linux'):
+    _DLL_prev = ct.CDLL("./libslabhiddevice.so.1.0", mode=ct.RTLD_GLOBAL)
+    _DLL = ct.cdll.LoadLibrary('./libslabhidtosmbus.so.1.0')    
 else:
     raise RuntimeError("HidSmbus: Unsupported OS")
 

@@ -54,6 +54,8 @@ if sys.platform == 'win32':
     _DLL = ct.windll.LoadLibrary('SLABHIDDevice.dll')
 elif sys.platform == 'darwin':
     _DLL = ct.cdll.LoadLibrary('libSLABHIDDevice.dylib')
+elif sys.platform.startswith('linux'):
+    _DLL = ct.cdll.LoadLibrary('./libslabhiddevice.so.1.0')    
 else:
     raise RuntimeError('HidPort: Unsupported OS')
 
