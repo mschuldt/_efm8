@@ -1,0 +1,126 @@
+Building "standalone manufacturing tool" (SMT)
+==============================================
+
+This directory contains source for building several device-specific executables, and Linux make files.
+Each executable builds from smt.cpp, util.cpp and a device-specific xxxsmt.cpp.
+
+-- Windows
+Use "New Project from existing code", "Console application" in Visual Studio around the above cpp files.
+Drop the device-specific API h and lib files into the same folder.
+(Note, for SMT to work with CP2114, SLABHIDtoUART.DLL must contain the MCUFW-790 fix. Make sure you have the latest.)
+
+-- Linux
+Install device-specific SDK. Copy the above cpp files and the corresponding make file into the folder containing the SDK
+demo app. Follow the SDK build instructions.
+(Note, the old SDK from silabs.com doesn't have the new API functions added for CP2102N, If you have that,
+replace library sources with the ones in our source control).
+
+-- Max OS X (NOTE! Still to be done)
+Use the source code controlled Xcode project in the repo.
+
+Syntax rules
+============
+
+TBD - see the doc-file in email for mow.
+
+Example batch file
+==================
+cp2110smt.exe --device-count 1 --verify-config "2110.smt"
+if %errorlevel% neq 0 goto fail
+@echo CMD PASS
+exit /b %errorlevel%
+:fail
+@echo CMD FAIL
+exit /b %errorlevel%
+
+CP2102 example config file
+==========================
+FilterPartNumByte { { 02 } }
+FilterVidPid { { 10c4 } { ea60 } }
+VidPid { { 10c4 } { ea60 } }
+MaxPower { { 32 } }
+PowerMode { { 00 } }
+ProductStringAscii { { 43 50 32 31 30 32 20 55 53 42 20 74 6f 20 55 41 52 54 20 42 72 69 64 67 65 20 43 6f 6e 74 72 6f 6c 6c 65 72 } }
+BaudRateConfig { { 
+ fff0 fffa 01 0016e360 
+ fff0 fffa 01 0016e360 
+ ffec fff8 01 00124f80 
+ ffe6 fff6 01 000e1000 
+ ffd6 fff0 01 0008ca00 
+ ffd0 ffee 01 0007a120 
+ ffcc ffec 01 00070800 
+ ffa2 ffdc 01 0003e800 
+ ffa0 ffdc 01 0003d090 
+ ff98 ffd9 01 00038400 
+ ff64 ffc5 01 00025800 
+ ff44 ffb9 01 0001f400 
+ ff30 ffb2 01 0001c200 
+ fec8 ff8b 01 00012c00 
+ fe89 ff73 01 0000fa00 
+ fe5f ff63 01 0000e100 
+ fe53 ff5f 01 0000dac0 
+ fe2b ff50 01 0000c800 
+ fd8f ff15 01 00009600 
+ fcbf fec7 01 00007080 
+ fb1e fe2b 01 00004b00 
+ fa24 fe0c 01 00003e80 
+ f97d fe0c 01 00003840 
+ f63c fe0c 01 00002580 
+ f2fb fe0c 01 00001c20 
+ ec78 fe0c 01 000012c0 
+ e890 fe0c 01 00000fa0 
+ d8f0 fe0c 01 00000960 
+ cbeb fe0c 01 00000708 
+ b1e0 fe0c 01 000004b0 
+ 63c0 fe0c 01 00000258 
+ b1e0 fe0c 04 0000012c } }
+
+CP2110 example config file
+==========================
+FilterPartNumByte { { 0a } }
+FilterVidPid { { 10c4 } { ea80 } }
+VidPid { { 10c4 } { ea80 } }
+MaxPower { { 32 } }
+PowerMode { { 00 } }
+DeviceVersion { { 0100 } }
+FlushBufferConfig { { 05 } }
+PinConfig { { 00 03 03 03 03 03 00 00 02 02 02 02 02 } { 00000000 } { 0000 } { 0000 } { 01 } { 00 } }
+ProductStringAscii { { 43 50 32 31 31 30 20 48 49 44 20 55 53 42 2d 74 6f 2d 55 41 52 54 20 42 72 69 64 67 65 } }
+ManufacturerStringAscii { { 53 69 6c 69 63 6f 6e 20 4c 61 62 6f 72 61 74 6f 72 69 65 73 } }
+
+CP2114 example config file
+==========================
+FilterPartNumByte { { 0e } }
+FilterVidPid { { 10c4 } { eab0 } }
+VidPid { { 10c4 } { eab0 } }
+MaxPower { { 32 } }
+PowerMode { { 00 } }
+DeviceVersion { { 0100 } }
+FlushBufferConfig { { 05 } }
+PinConfig { { 03 03 03 03 03 04 04 04 04 03 04 03 02 02 } { 00000000 } { 0000 } { 0000 } { 00 } }
+ProductStringAscii { { 43 50 32 31 31 34 20 55 53 42 2d 41 75 64 69 6f 20 42 72 69 64 67 65 } }
+ManufacturerStringAscii { { 53 69 6c 69 63 6f 6e 20 4c 61 62 6f 72 61 74 6f 72 69 65 73 } }
+
+CP2112 example config file
+==========================
+FilterPartNumByte { { 0c } }
+FilterVidPid { { 10c4 } { ea90 } }
+VidPid { { 10c4 } { ea90 } }
+MaxPower { { 32 } }
+PowerMode { { 00 } }
+DeviceVersion { { 0100 } }
+ProductStringAscii { { 43 50 32 31 31 32 20 48 49 44 20 55 53 42 2d 74 6f 2d 53 4d 42 75 73 20 42 72 69 64 67 65 } }
+ManufacturerStringAscii { { 53 69 6c 69 63 6f 6e 20 4c 61 62 6f 72 61 74 6f 72 69 65 73 } }
+
+CP2130 example config file
+==========================
+FilterPartNumByte { { 00 } }
+FilterVidPid { { 10c4 } { 87a0 } }
+VidPid { { 10c4 } { 87a0 } }
+MaxPower { { 32 } }
+PowerMode { { 00 } }
+DeviceVersion { { 0100 } }
+TransferPriority { { 01 } }
+PinConfig { { 03 03 03 04 04 04 00 02 04 04 04 00 00 00 00 00 00 00 00 00 } }
+ProductStringAscii { { 43 50 32 31 33 30 20 55 53 42 2d 74 6f 2d 53 50 49 20 42 72 69 64 67 65 } }
+ManufacturerStringAscii { { 53 69 6c 69 63 6f 6e 20 4c 61 62 6f 72 61 74 6f 72 69 65 73 } }
