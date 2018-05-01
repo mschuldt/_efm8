@@ -29,11 +29,11 @@ VERSION = '1.10'
 
 class Efm8HidPort(hidport.HidPort):
     """Class demonstrates how to communicate with EFM8 HID bootloader.
-    
-    This class provides functions for writing a boot frame and for reading 
-    the response from the EFM8 HID bootloader. Because the EFM8 HID device 
+
+    This class provides functions for writing a boot frame and for reading
+    the response from the EFM8 HID bootloader. Because the EFM8 HID device
     only defines one input and one output report, there is no report number.
-    For Windows hosts only, read/write data exchanged with the HID driver 
+    For Windows hosts only, read/write data exchanged with the HID driver
     is prepended with a dummy report number.
     """
     SIZE_IN = 4     # Input (device to host) report size
@@ -65,8 +65,8 @@ class Efm8HidPort(hidport.HidPort):
 
 class Efm8SmbPort(smbport.SmbPort):
     """Class demonstrates how to communicate with EFM8 SMB bootloader.
-    
-    This class provides functions for writing a boot frame and for reading 
+
+    This class provides functions for writing a boot frame and for reading
     the response from the EFM8 SMB bootloader using a CP2112-EVK.
 
     Args:
@@ -81,18 +81,18 @@ class Efm8SmbPort(smbport.SmbPort):
 
     def read(self):
         """Read the reply byte from the EFM8 bootloader.
-        
-        The EFM8-SMB bootloader will NAK its slave address until it is finished 
-        processing the previous command. The CP2112 automatically re-attempts 
-        the transfer (ACK polls) until the slave ACKs. 
+
+        The EFM8-SMB bootloader will NAK its slave address until it is finished
+        processing the previous command. The CP2112 automatically re-attempts
+        the transfer (ACK polls) until the slave ACKs.
         """
         return self.smb_read(self.address, 1)[0:1]
 
     def write(self, frame):
         """Send a boot frame to the EFM8 bootloader.
-        
-        The CP2112 maximum write transfer is 61 bytes. So the boot frame is written 
-        as several chunks. The boot frame can also be written in a single transfer 
+
+        The CP2112 maximum write transfer is 61 bytes. So the boot frame is written
+        as several chunks. The boot frame can also be written in a single transfer
         if the SMB master supports longer writes.
         """
         for n in range(0, len(frame), self.max_size):
@@ -131,7 +131,7 @@ def efm8load(port, bootfile, trace=False):
         The number of errors detected during the download.
     """
     errors = 0
-    
+
     # Send the auto-baud training charater for the UART bootloader
     if isinstance(port, serial.Serial):
         port.write(b'\xff\xff')
@@ -165,9 +165,9 @@ def efm8load(port, bootfile, trace=False):
 def open_port(port_name, baud=None):
     """Open the requested communication port.
 
-    If the port_name is not specified, will open the first EFM8 HID or STK 
+    If the port_name is not specified, will open the first EFM8 HID or STK
     CDC-ACM port that it finds attached.
-    
+
     Args:
         port_name (string): Name of the communication port to open.
         baud (int): Baud rate for serial ports. Ignored for other port types.

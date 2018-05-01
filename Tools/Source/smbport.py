@@ -4,8 +4,8 @@
 
 """CP2112 HID to SMBus bridge interface.
 
-This module uses the ctypes package to wrap a small set of functions from the Silicon Labs 
-HID to SMBus Interface library (SLABHIDtoSMBus.dll). The wrapped functions are all that are 
+This module uses the ctypes package to wrap a small set of functions from the Silicon Labs
+HID to SMBus Interface library (SLABHIDtoSMBus.dll). The wrapped functions are all that are
 needed to communicate with the EFM8 SMB bootloader.
 """
 
@@ -72,20 +72,20 @@ elif sys.platform == 'darwin':
     _DLL = ct.cdll.LoadLibrary("libSLABHIDtoSMBus.dylib")
 elif sys.platform.startswith('linux'):
     _DLL_prev = ct.CDLL("./libslabhiddevice.so.1.0", mode=ct.RTLD_GLOBAL)
-    _DLL = ct.cdll.LoadLibrary('./libslabhidtosmbus.so.1.0')    
+    _DLL = ct.cdll.LoadLibrary('./libslabhidtosmbus.so.1.0')
 else:
     raise RuntimeError("HidSmbus: Unsupported OS")
 
 # Set return types and error check function for the wrapped library
 for hidsmb_function in [
-    "HidSmbus_GetNumDevices", 
-    "HidSmbus_Open", 
-    "HidSmbus_Close", 
-    "HidSmbus_ReadRequest", 
+    "HidSmbus_GetNumDevices",
+    "HidSmbus_Open",
+    "HidSmbus_Close",
+    "HidSmbus_ReadRequest",
     "HidSmbus_GetReadResponse",
-    "HidSmbus_WriteRequest", 
-    "HidSmbus_TransferStatusRequest", 
-    "HidSmbus_GetTransferStatusResponse", 
+    "HidSmbus_WriteRequest",
+    "HidSmbus_TransferStatusRequest",
+    "HidSmbus_GetTransferStatusResponse",
     "HidSmbus_SetSmbusConfig"]:
     fnc = getattr(_DLL, hidsmb_function)
     fnc.restype = ct.c_int
@@ -101,7 +101,7 @@ def port_count():
 class SmbPort(object):
     """Base class for communicating with a Silicon Labs CP2112 device.
 
-    Creating an instance of this class automatically opens the first available 
+    Creating an instance of this class automatically opens the first available
     CP2112 device.
 
     Args:

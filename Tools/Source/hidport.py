@@ -4,8 +4,8 @@
 
 """USB HID communication module.
 
-This module uses the ctypes package to wrap a small set of functions from the SiLabs HID 
-Device Interface library (SLABHIDDevice.dll). The wrapped functions are all that are needed 
+This module uses the ctypes package to wrap a small set of functions from the SiLabs HID
+Device Interface library (SLABHIDDevice.dll). The wrapped functions are all that are needed
 to communicate with the pre-loaded EFM8 USB bootloader.
 """
 
@@ -14,7 +14,7 @@ import sys
 
 # EFM8 bootloader VID/PID values
 EFM8_LOADERS = [
-    (0x10C4, 0xEAC9), 
+    (0x10C4, 0xEAC9),
     (0x10C4, 0xEACA)
 ]
 
@@ -55,7 +55,7 @@ if sys.platform == 'win32':
 elif sys.platform == 'darwin':
     _DLL = ct.cdll.LoadLibrary('libSLABHIDDevice.dylib')
 elif sys.platform.startswith('linux'):
-    _DLL = ct.cdll.LoadLibrary('./libslabhiddevice.so.1.0')    
+    _DLL = ct.cdll.LoadLibrary('./libslabhiddevice.so.1.0')
 else:
     raise RuntimeError('HidPort: Unsupported OS')
 
@@ -83,7 +83,7 @@ def port_count(ids=EFM8_LOADERS):
 class HidPort(object):
     """Base class for communicating with a USB HID device.
 
-    Creating an instance of this class automatically opens the first available 
+    Creating an instance of this class automatically opens the first available
     HID device with a matching id.
 
     Args:
